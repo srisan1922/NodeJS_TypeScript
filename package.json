@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "build": "tsc --build",
     "start:dev": "nodemon ./src/app.ts",
     "start:prod": "node ./dist/app.js",
     "start": "npx tsc && nodemon ./dist/app.js"
