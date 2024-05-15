@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response } from "express-serve-static-core";
 
 //All the business logic like sending the data to the DB, or any kind of operations like below can be performed inside the controllers
 

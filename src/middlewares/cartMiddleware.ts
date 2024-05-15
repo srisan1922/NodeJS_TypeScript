@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express-serve-static-core";
 
 const cartMiddleware = (req: Request, res: Response, next: NextFunction) => {
   return res.send({

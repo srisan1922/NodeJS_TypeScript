@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "express-serve-static-core";
 
 const paymentSuccess = (req: Request, res: Response) => {
   console.log("The payment received Successfully");

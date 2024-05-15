@@ -1,4 +1,5 @@
-import express, { Application, Request, Response } from "express";
+import express from "express";
+import { Application, Request, Response } from "express-serve-static-core";
 import productRouter from "./routers/productRouter";
 import cartRouter from "./routers/cartRouter";
 import paymentRouter from "./routers/paymentRouter";
