@@ -1,6 +1,3 @@
-import express, { Request, Response } from "express-serve-static-core";
-
-//All the business logic like sending the data to the DB, or any kind of operations like below can be performed inside the controllers
 interface MockData {
   product_name: string;
   description: string;
@@ -17,7 +14,7 @@ interface MockData {
   output?: string;
 }
 
-let mockData: MockData[] = [
+export let mockData: MockData[] = [
   {
     product_name: "Wireless_Bluetooth_Earbuds",
     description:
@@ -66,62 +63,3 @@ let mockData: MockData[] = [
     battery_life: "Up to 7 days",
   },
 ];
-
-const getProducts = (req: Request, res: Response) => {
-  console.log("Displaying all the items in the list");
-  res.json({
-    successful: true,
-    data: [...mockData],
-  });
-};
-
-const postProducts = (req: Request, res: Response) => {
-  console.log("Updating all the items in the list into the database");
-  res.json({
-    successful: true,
-    data: req.body,
-  });
-};
-
-const getProductItem = (req: Request, res: Response) => {
-  console.log(
-    "Displaying particular the items in the list based on the product name"
-  );
-  const prodname = req.params.product_name;
-  const item = mockData.find((item) => item.product_name === prodname);
-
-  if (!item) {
-    res.json({
-      successful: false,
-      errorMessage: "Item not found",
-    });
-  } else {
-    res.json({
-      successful: true,
-      data: item,
-    });
-  }
-};
-
-const deleteProductItem = (req: Request, res: Response) => {
-  console.log("Deleting the perticular item from the List");
-  const prodname = req.params.product_name;
-  const filterProducts = mockData.filter(
-    (item) => item.product_name !== prodname
-  );
-  if (filterProducts.length === mockData.length) {
-    res.json({
-      successful: false,
-      errorMessage: "Item not found",
-    });
-  } else {
-    mockData = filterProducts;
-    res.json({
-      successful: true,
-      successMessage: "Product removed from the List",
-      data: filterProducts,
-    });
-  }
-};
-
-export { getProducts, postProducts, getProductItem, deleteProductItem };

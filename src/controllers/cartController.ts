@@ -1,6 +1,15 @@
 import express, { Request, Response } from "express-serve-static-core";
 
-let mockCartData = [
+interface MockCartData {
+  product_name: string;
+  price: number;
+  available_colors?: string[];
+  capacity_oz?: number;
+  compatible_devices?: string[];
+  quantity: number;
+}
+
+let mockCartData: MockCartData[] = [
   {
     product_name: "Wireless_Bluetooth_Earbuds",
     price: 49.99,
