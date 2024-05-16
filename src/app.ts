@@ -1,12 +1,56 @@
-import express, { Application, Request, Response } from "express";
+import express from "express";
+import bodyParser from "body-parser";
+import { Request, Response, NextFunction } from "express-serve-static-core";
+import "reflect-metadata";
+import { AppMiddleware } from "./middlewares/appMiddleware";
+import { AppDataSource } from "./database/data-source";
+import { ProductsRouter } from "./routers/productsRouter";
+import { CartRouter } from "./routers/cartRouter";
 
-const app: Application = express();
-const PORT: number = 3000;
+class App {
+  app: express.Express;
+  constructor() {
+    this.app = express();
+    this.configureMiddleware();
+    this.setupRouter();
+  }
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome To Node World");
-});
+  configureMiddleware() {
+    //Mounts bodyParser middleware to parse req.body into json format
+    this.app.use(bodyParser.json());
+    //Parses incoming request bodies containing URL-encoded data
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    //Middleware common to all requests
+    this.app.use(AppMiddleware);
 
-app.listen(PORT, () => {
-  console.log(`Server is running in http://localhost:${PORT}`);
-});
+    //Error handling Middleware
+    this.app.use(
+      (err: any, req: Request, res: Response, next: NextFunction) => {
+        console.log(err);
+      }
+    );
+  }
+
+  setupRouter() {
+    //Handling home page request
+    this.app.use("/", (req: Request, res: Response) => {
+      console.log("Welcome to the Home Page!!!");
+    });
+
+    this.app.use("/products", new ProductsRouter().router);
+    this.app.use("/carts", new CartRouter().router);
+  }
+
+  start() {
+    const port = process.env.PORT || 3000;
+    AppDataSource.initialize().then(() => {
+      //Start listening to request port 3000
+      this.app.listen(port, () => {
+        console.log(`Server is running in the http://localhost:${port}`);
+      });
+    });
+  }
+}
+
+const app = new App();
+app.start();
