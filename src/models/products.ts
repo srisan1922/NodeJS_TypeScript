@@ -1,9 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { ObjectId } from "mongodb";
+import { Entity, ObjectIdColumn, Column, BaseEntity } from "typeorm";
 
 @Entity("products")
 export class Products extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  product_id?: number;
+  @ObjectIdColumn()
+  product_id: ObjectId = new ObjectId();
   @Column({ length: 10 })
   product_name?: string;
   @Column({ length: 20 })

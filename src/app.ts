@@ -17,7 +17,7 @@ class App {
 
   configureMiddleware() {
     //Mounts bodyParser middleware to parse req.body into json format
-    this.app.use(bodyParser.json());
+    this.app.use(express.json());
     //Parses incoming request bodies containing URL-encoded data
     this.app.use(bodyParser.urlencoded({ extended: true }));
     //Middleware common to all requests
@@ -42,12 +42,18 @@ class App {
   }
 
   start() {
-    const port = process.env.PORT || 3000;
-    AppDataSource.initialize().then(() => {
-      //Start listening to request port 3000
-      this.app.listen(port, () => {
-        console.log(`Server is running in the http://localhost:${port}`);
+    const port = process.env.PORT || 27017;
+    AppDataSource.initialize()
+      .then(() => {
+        //Mongo Db connection started
+        console.log(`MongoDB server connected`);
+      })
+      .catch((err) => {
+        console.log(err);
       });
+
+    this.app.listen(port, () => {
+      console.log(`Server connected in port: ${port}`);
     });
   }
 }
